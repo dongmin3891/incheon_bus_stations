@@ -1,27 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import BusApi from '../api/BusApi';
 //import Main from './Main';
 
 const Test = () => {
+
+  const [busLocationData, setBusLocationData] = useState(null);
   
   useEffect(() => {
-    test();
+    console.log("Test useEffect...")
+    busLocationInfo();
   },[])
 
-  const test = async () => {
-    const testApi2 = await BusApi.getTest();
-    const testApi = await BusApi.getBusData();
-    console.log("test",testApi)
-    console.log("test2",testApi2)
+  const busLocationInfo = async () => {
+    const busData = await BusApi.getBusData();
+    const busDataProcessing = busData.data.elements[0].elements[2].elements
+    console.log("버스 실시간 조회 ===>", busData);
+    // setBusLocationData(busData.data.elements[0].elements[2].elements);
+    // console.log("버스 실시간 조회 데이터 가공전===>",busDataProcessing);
+     console.log("버스 실시간 조회 데이터 가공===>",busDataProcessing.map((data) => data.elements.map((data)=> data.elements.map((data) => data.text))));
   }
 
-
-  console.log("render2")
   return (
     <>
       <div className="test">
-        가나다라마
+        테스트
+        {/* {busLocationData.map((items) => {
+          items.map((datas) => {})
+        })} */}
       </div>
     </>
   );

@@ -24,8 +24,6 @@ instance.interceptors.response.use(
   }
 )
 
-
-
 export default {
   getTest() {
     return instance({
