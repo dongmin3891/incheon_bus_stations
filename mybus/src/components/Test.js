@@ -4,16 +4,18 @@ import BusApi from '../api/BusApi';
 //import Main from './Main';
 
 const Test = () => {
-
+  
   useEffect(() => {
     test();
   },[])
 
   const test = async () => {
-    const testApi = await BusApi.getTest();
+    const testApi2 = await BusApi.getTest();
+    const testApi = await BusApi.getBusData();
     console.log("test",testApi)
-    return testApi
+    console.log("test2",testApi2)
   }
+
 
   console.log("render2")
   return (

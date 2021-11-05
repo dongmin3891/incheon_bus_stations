@@ -2,11 +2,7 @@ import axios from "axios";
 import * as URLs from '../const'
 
 const instance = axios.create({
-  baseURL : `${URLs.busApiUrl}
-  serviceKey=${URLs.serviceKey}
-  numOfRows=${URLs.numOfRows}
-  pageNo=${URLs.pageNo}
-  routeid=${URLs.routeId}`,
+  baseURL : ""
 });
 
 instance.interceptors.request.use(
@@ -33,8 +29,16 @@ instance.interceptors.response.use(
 export default {
   getTest() {
     return instance({
-      url:"",
+      url:"/api/test",
       method:"get",
     })
+  },
+
+  getBusData() {
+    return instance({
+      url:"/api/busData",
+      method:"get"
+    })
   }
+
 }
