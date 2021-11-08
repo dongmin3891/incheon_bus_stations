@@ -14,15 +14,15 @@ const BusStation = () => {
     console.log("Test useEffect...")
       busLocationInfo();
       busRouteInfo();
-      busArrivalInfo();
-      // 버스노선나누는함수();
+      busArrivalApi();
+      //  버스노선나누는함수();
   },[])
 
   //현재버스위치조회
   const busLocationInfo = async () => {
     const busData = await BusApi.getBusData();
-    const busDataProcessing = busData.data.elements[0].elements[2].elements
-    const stationId = busDataProcessing.map((data) => data.elements
+    const busDataProcessing = busData?.data?.elements[0]?.elements[2]?.elements
+    const stationId = busDataProcessing?.map((data) => data.elements
     .filter((data) => data.name === "stationId" )
     .map((data) => data.elements
     .map((data)=>data.text)))
@@ -38,15 +38,15 @@ const BusStation = () => {
       stationSeq : 정류소 순번 (노선의 정류소 순번)
     *******/
 
-    console.log("버스 실시간 조회 데이터 가공===>",busDataProcessing.map((data) => data.elements.map((data)=> data.elements.map((data) => data.text))));
-    console.log("현재 stationId 조회", String(stationId.join([])));
+    console.log("버스 실시간 조회 데이터 가공===>",busDataProcessing?.map((data) => data.elements.map((data)=> data.elements.map((data) => data.text))));
+    console.log("현재 stationId 조회", String(stationId?.join([])));
     //  console.log("버스 실시간 조회 데이터 가공2===>",busDataProcessing.map((data) => data.elements));
-    setStationId(String(stationId.join("")))
+    setStationId(String(stationId?.join("")))
   }
   //경유정류소목록조회
   const busRouteInfo = async () => {
     const busRouteData = await BusApi.getBusRouteData();
-    const busRouteDataProcessing = busRouteData.data.elements[0].elements[2].elements
+    const busRouteDataProcessing = busRouteData.data.elements[0]?.elements[2].elements
     console.log("버스노선조회", busRouteDataProcessing)
     
     const stationNameId = busRouteDataProcessing
@@ -59,16 +59,17 @@ const BusStation = () => {
     버스노선나누는함수();
   }
 
-  const busArrivalInfo = async () => {
+  const busArrivalApi = async () => {
     const busArrivalData = await BusApi.getBusArrivalData();
-    const busArrivalDataProcessing = busArrivalData.data.elements[0].elements[2].elements
+    const busArrivalDataProcessing = busArrivalData.data?.elements[0].elements[2]?.elements
+
     const busArrivalInfo = busArrivalDataProcessing
-    .map((data) => data.elements
+    ?.map((data) => data.elements
     .filter((data) => data.name === "flag" || data.name === "locationNo1" || data.name === "locationNo2" || data.name === "predictTime1" || data.name === "predictTime2" )
     .map((data) => data.elements
     .map((data)=>data.text)))
 
-    // console.log("버스도착정보조회", busArrivalDataProcessing);
+    //console.log("버스도착정보조회", busArrivalDataProcessing);
     // console.log("버스도착정보조회 데이터 가공===>",busArrivalDataProcessing.map((data) => data.elements.map((data)=> data.elements.map((data) => data.text))));
     console.log("버스도착정보조회 필요한 것만 추출", busArrivalInfo);
     
@@ -97,12 +98,17 @@ const BusStation = () => {
   const reFresh = () => {
     busLocationInfo();
     busRouteInfo();
+    // 버스노선나누는함수();
   }
 
   const 버스노선나누는함수 = () => {
     const list = document.getElementsByClassName("bus_station_list");
-    list.forEach(function(data){
-      console.log(data);
+    //const list2 = document.querySelector("bus_station_list");
+    Array.from(list).forEach(function(data,idx){
+      console.log("data",data.name);
+      if(data.value === "167000093"){
+        //data.innerHTML("전환점입니다.");
+      }
     })
     console.log("list",list);
   }
