@@ -1,6 +1,6 @@
 import React from "react";
 import { Route,Redirect, Switch } from "react-router-dom";
-import Test from "./components/Test";
+import BusStation from "./components/BusStation";
 
 
 
@@ -13,7 +13,7 @@ const Main = () => {
   return (
     <>
     <div>
-      <Route path="/" component={Test} />
+      <Route path="/" component={BusStation} />
     </div>
     </>
   )
