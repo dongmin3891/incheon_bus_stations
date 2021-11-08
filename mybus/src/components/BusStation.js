@@ -98,16 +98,18 @@ const BusStation = () => {
   const reFresh = () => {
     busLocationInfo();
     busRouteInfo();
-    // 버스노선나누는함수();
+    버스노선나누는함수();
   }
 
   const 버스노선나누는함수 = () => {
     const list = document.getElementsByClassName("bus_station_list");
     //const list2 = document.querySelector("bus_station_list");
     Array.from(list).forEach(function(data,idx){
-      console.log("data",data.name);
-      if(data.value === "167000093"){
-        //data.innerHTML("전환점입니다.");
+      if(data.value === 167000093){
+        let tag = document.createElement('h1');
+        // tag.setAttribute()
+        data.appendChild(tag);
+        // tag.textContent("전환점입니다.")
       }
     })
     console.log("list",list);
