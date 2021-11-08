@@ -37,6 +37,12 @@ export default {
       url:"/api/busData",
       method:"get"
     })
+  },
+  getBusRouteData() {
+    return instance({
+      url:"/api/busRoute",
+      method:"get"
+    })
   }
 
 }
