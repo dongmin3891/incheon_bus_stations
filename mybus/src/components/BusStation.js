@@ -15,6 +15,7 @@ const BusStation = () => {
       busLocationInfo();
       busRouteInfo();
       busArrivalInfo();
+      // 버스노선나누는함수();
   },[])
 
   //현재버스위치조회
@@ -55,6 +56,7 @@ const BusStation = () => {
     .map((data)=>data.text)))
 
     setBusRoute(stationNameId);
+    버스노선나누는함수();
   }
 
   const busArrivalInfo = async () => {
@@ -97,20 +99,26 @@ const BusStation = () => {
     busRouteInfo();
   }
 
-
+  const 버스노선나누는함수 = () => {
+    const list = document.getElementsByClassName("bus_station_list");
+    list.forEach(function(data){
+      console.log(data);
+    })
+    console.log("list",list);
+  }
  
 
   return (
     <>
-      <div className="test">
-      <button onClick={reFresh}>새로고침</button>
-        <ul className="">
-          {busRoute?.map((data,index) =>
-            <>
-              <li key={index} style={{...stationId.indexOf(String(data[0])) !== -1 ? {color : "red"} : {color : "black"}}} name={data[1]} value={data[0]}>{data[1]}</li>
-            </>
-          )}
-        </ul>
+      <div className="bus_station_main">
+        <button className="refresh_button" onClick={reFresh}>새로고침</button>
+          <ul className="bus_station_box">
+            {busRoute?.map((data,index) =>
+              <>
+                <li className="bus_station_list" key={index} style={{...stationId?.indexOf(String(data[0])) !== -1 ? {color : "red"} : {color : "black"}}} name={data[1]} value={data[0]}>{data[1]}</li>
+              </>
+            )}
+          </ul>
       </div>
     </>
   );
