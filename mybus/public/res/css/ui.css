@@ -35,11 +35,20 @@
   background-color: darksalmon;
   font-size: 20px;
 }
+.header {
+  display: flex;
+}
 
 .title {
   text-align: center;
-  margin-bottom: 30px;
 }
 .bus_station_box {
   margin-left: 30px;
+}
+
+.going_home {
+  font-size: 15px;
+}
+.going_company {
+  font-size: 15px;
 }

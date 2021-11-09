@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import BusApi from '../api/BusApi';
+import StationTime from './StationTime';
 import $ from "jquery";
 //import Main from './Main';
+import { useDispatch } from 'react-redux';
+import { setHomeInfo } from '../store/reducers/home';
 
 const BusStation = () => {
+
+  const dispatch = useDispatch();
 
   const [busLocation, setBusLocation] = useState(null);
   const [busRoute, setBusRoute] = useState(null);
@@ -16,81 +21,90 @@ const BusStation = () => {
       busLocationInfo();
       busRouteInfo(false);
       busArrivalApi();
-      //  버스노선나누는함수();
-
-      // $(document).ready(function() {
-      //   let currentPosition = parseInt($(".refresh_button").css("top"));
-      //   $(window).scroll(function() {
-      //     let position = $(window).scrollTop();
-      //     $(".refresh_button").stop().animate({"top": position + currentPosition + "px"}, 1000);
-      //   })
-      // })
-
   },[])
 
 
   //현재버스위치조회
   const busLocationInfo = async () => {
+    
     const busData = await BusApi.getBusData();
-    const busDataProcessing = busData?.data?.elements[0]?.elements[2]?.elements
-    const stationId = busDataProcessing?.map((data) => data.elements
-    .filter((data) => data.name === "stationId" )
-    .map((data) => data.elements
-    .map((data)=>data.text)))
+    if(busData.data.elements[0].elements[1].elements[1].elements[0].text === "0"){
+      const busDataProcessing = busData?.data?.elements[0]?.elements[2]?.elements
+      const stationId = busDataProcessing?.map((data) => data.elements
+      .filter((data) => data.name === "stationId" )
+      .map((data) => data.elements
+      .map((data)=>data.text)))
 
-    //김포, 인천 routeId = 232000089
-    /******  데이터 순서
-      endBus : 막차여부 (0:일반, 1:막차)
-      lowPlate : 저상버스여부 (0:일반버스, 1: 저상버스)
-      plateNo : 차량번호
-      remainSeatCnt : 차량빈자리수 (-1:정보없음, 0~:빈자리 수)
-      routeId : 노선 아이디 (노서ID)
-      stationId : 정류소 아이디 (정류소ID)
-      stationSeq : 정류소 순번 (노선의 정류소 순번)
-    *******/
-
-    console.log("버스 실시간 조회 데이터 가공===>",busDataProcessing?.map((data) => data.elements.map((data)=> data.elements.map((data) => data.text))));
-    console.log("현재 stationId 조회", String(stationId?.join([])));
-    //  console.log("버스 실시간 조회 데이터 가공2===>",busDataProcessing.map((data) => data.elements));
-    setStationId(String(stationId?.join("")))
+      //console.log("버스 실시간 조회 데이터 가공===>",busDataProcessing?.map((data) => data.elements.map((data)=> data.elements.map((data) => data.text))));
+      //console.log("현재 stationId 조회", String(stationId?.join([])));
+      //  console.log("버스 실시간 조회 데이터 가공2===>",busDataProcessing.map((data) => data.elements));
+      setStationId(String(stationId?.join("")))
+      console.log("stationId",stationId )
+    }else {
+      console.log("error");
+    }
+     //김포, 인천 routeId = 232000089
+      /******  데이터 순서
+        endBus : 막차여부 (0:일반, 1:막차)
+        lowPlate : 저상버스여부 (0:일반버스, 1: 저상버스)
+        plateNo : 차량번호
+        remainSeatCnt : 차량빈자리수 (-1:정보없음, 0~:빈자리 수)
+        routeId : 노선 아이디 (노서ID)
+        stationId : 정류소 아이디 (정류소ID)
+        stationSeq : 정류소 순번 (노선의 정류소 순번)
+      *******/
   }
   //경유정류소목록조회
   const busRouteInfo = async (check) => {
 
-    
       const busRouteData = await BusApi.getBusRouteData();
-      const busRouteDataProcessing = busRouteData.data.elements[0]?.elements[2].elements
-      console.log("버스노선조회", busRouteDataProcessing)
-      
-      const stationNameId = busRouteDataProcessing
-      .map((data) => data.elements
-      .filter((data) => data.name === "stationName" || data.name === "stationId" )
-      .map((data) => data.elements
-      .map((data)=>data.text)))
+      if(busRouteData.data.elements[0].elements[1].elements[1].elements[0].text === "0"){
+        const busRouteDataProcessing = busRouteData.data.elements[0]?.elements[2].elements
+        //console.log("버스노선조회", busRouteDataProcessing)
+        
+        const stationNameId = await busRouteDataProcessing
+        .map((data) => data.elements
+        .filter((data) => data.name === "stationName" || data.name === "stationId" )
+        .map((data) => data.elements
+        .map((data)=>data.text)))
 
-      setBusRoute(stationNameId);
-    if(check === false){
-      버스노선나누는함수();
-    }
+        setBusRoute(stationNameId);
+        if(check === false){
+          버스노선나누는함수();
+        }
+      }else {
+        console.log("error");
+      }
+      
   }
 
+  //도착정보조회
   const busArrivalApi = async () => {
     const busArrivalData = await BusApi.getBusArrivalData();
-    const busArrivalDataProcessing = busArrivalData.data?.elements[0].elements[2]?.elements
 
-    const busArrivalInfo = busArrivalDataProcessing
-    ?.map((data) => data.elements
-    .filter((data) => data.name === "flag" || data.name === "locationNo1" || data.name === "locationNo2" || data.name === "predictTime1" || data.name === "predictTime2" )
-    .map((data) => data.elements
-    .map((data)=>data.text)))
-
+    if(busArrivalData.data?.elements[0]?.elements[1]?.elements[1]?.elements[0]?.text === "0"){
+      const busArrivalDataProcessing = busArrivalData.data?.elements[0].elements[2]?.elements
+      const busArrivalInfo = await busArrivalDataProcessing
+      ?.map((data) => data.elements
+      .filter((data) => data.name === "flag" || data.name === "locationNo1" || data.name === "locationNo2" || data.name === "predictTime1" || data.name === "predictTime2" )
+      .map((data) => data.elements
+      .map((data)=>data.text)))
+      
+      setArrivalInfo(busArrivalInfo);
+      dispatch(setHomeInfo('HOMEINFO/CH_HOME_STATION_TIME',{
+        oneTime: busArrivalInfo[0][1],
+        oneStation: busArrivalInfo[0][2],
+        twoTime: busArrivalInfo[0][3],
+        twoStation: busArrivalInfo[0][4],
+      }))
+      console.log("time 버스도착정보조회 필요한 것만 추출", busArrivalInfo);
+    }else {
+      console.log("error")
+    }
     //console.log("버스도착정보조회", busArrivalDataProcessing);
     // console.log("버스도착정보조회 데이터 가공===>",busArrivalDataProcessing.map((data) => data.elements.map((data)=> data.elements.map((data) => data.text))));
-    console.log("버스도착정보조회 필요한 것만 추출", busArrivalInfo);
+    //console.log("버스도착정보조회 필요한 것만 추출", busArrivalInfo);
     
-    
-    setArrivalInfo(busArrivalInfo);
-
     /******  데이터 순서
       -flag : 상태구분 (RUN:운행중, PASS:운행중, STOP:운행종료, WAIT:회차지대기)
       -locationNo1 : 첫번째차량 위치정보 (현재 버스위치 -- 몇번째전 정류소)
@@ -114,6 +128,7 @@ const BusStation = () => {
     let checked = true;
     busLocationInfo();
     busRouteInfo(checked);
+    busArrivalApi();
   }
 
   const 버스노선나누는함수 = () => {
@@ -128,9 +143,8 @@ const BusStation = () => {
         data.appendChild(tag);
       }
     })
-    console.log("list",list);
   }
- 
+//  boxShadow:"inset 0 -15px 0 #f3df4d"
 
   return (
     <>
@@ -144,6 +158,7 @@ const BusStation = () => {
             )}
           </ul>
       </div>
+      
     </>
   );
 }
