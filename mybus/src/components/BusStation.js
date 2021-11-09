@@ -92,12 +92,13 @@ const BusStation = () => {
       
       setArrivalInfo(busArrivalInfo);
       dispatch(setHomeInfo('HOMEINFO/CH_HOME_STATION_TIME',{
-        oneTime: busArrivalInfo[0][1],
-        oneStation: busArrivalInfo[0][2],
-        twoTime: busArrivalInfo[0][3],
-        twoStation: busArrivalInfo[0][4],
+        oneTime: busArrivalInfo[0][3],
+        oneStation: busArrivalInfo[0][1],
+        twoTime: busArrivalInfo[0][4],
+        twoStation: busArrivalInfo[0][2],
       }))
       console.log("time 버스도착정보조회 필요한 것만 추출", busArrivalInfo);
+      console.log("time2 버스도착정보조회 필요한 것만 추출", busArrivalDataProcessing);
     }else {
       console.log("error")
     }
