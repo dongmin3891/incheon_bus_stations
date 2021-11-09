@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import BusApi from '../api/BusApi';
+import $ from "jquery";
 //import Main from './Main';
 
 const BusStation = () => {
@@ -13,10 +14,20 @@ const BusStation = () => {
   useEffect(() => {
     console.log("Test useEffect...")
       busLocationInfo();
-      busRouteInfo();
+      busRouteInfo(false);
       busArrivalApi();
       //  버스노선나누는함수();
+
+      // $(document).ready(function() {
+      //   let currentPosition = parseInt($(".refresh_button").css("top"));
+      //   $(window).scroll(function() {
+      //     let position = $(window).scrollTop();
+      //     $(".refresh_button").stop().animate({"top": position + currentPosition + "px"}, 1000);
+      //   })
+      // })
+
   },[])
+
 
   //현재버스위치조회
   const busLocationInfo = async () => {
@@ -44,19 +55,23 @@ const BusStation = () => {
     setStationId(String(stationId?.join("")))
   }
   //경유정류소목록조회
-  const busRouteInfo = async () => {
-    const busRouteData = await BusApi.getBusRouteData();
-    const busRouteDataProcessing = busRouteData.data.elements[0]?.elements[2].elements
-    console.log("버스노선조회", busRouteDataProcessing)
-    
-    const stationNameId = busRouteDataProcessing
-    .map((data) => data.elements
-    .filter((data) => data.name === "stationName" || data.name === "stationId" )
-    .map((data) => data.elements
-    .map((data)=>data.text)))
+  const busRouteInfo = async (check) => {
 
-    setBusRoute(stationNameId);
-    버스노선나누는함수();
+    
+      const busRouteData = await BusApi.getBusRouteData();
+      const busRouteDataProcessing = busRouteData.data.elements[0]?.elements[2].elements
+      console.log("버스노선조회", busRouteDataProcessing)
+      
+      const stationNameId = busRouteDataProcessing
+      .map((data) => data.elements
+      .filter((data) => data.name === "stationName" || data.name === "stationId" )
+      .map((data) => data.elements
+      .map((data)=>data.text)))
+
+      setBusRoute(stationNameId);
+    if(check === false){
+      버스노선나누는함수();
+    }
   }
 
   const busArrivalApi = async () => {
@@ -96,20 +111,21 @@ const BusStation = () => {
 
   //새로고침
   const reFresh = () => {
+    let checked = true;
     busLocationInfo();
-    busRouteInfo();
-    버스노선나누는함수();
+    busRouteInfo(checked);
   }
 
   const 버스노선나누는함수 = () => {
     const list = document.getElementsByClassName("bus_station_list");
-    //const list2 = document.querySelector("bus_station_list");
+
     Array.from(list).forEach(function(data,idx){
       if(data.value === 167000093){
         let tag = document.createElement('h1');
-        // tag.setAttribute()
+        tag.className = "station_turning"
+        tag.setAttribute("style","color:black")
+        tag.innerHTML = "전환점 입니다."
         data.appendChild(tag);
-        // tag.textContent("전환점입니다.")
       }
     })
     console.log("list",list);
@@ -119,11 +135,11 @@ const BusStation = () => {
   return (
     <>
       <div className="bus_station_main">
-        <button className="refresh_button" onClick={reFresh}>새로고침</button>
+        <button className="refresh_button"  onClick={reFresh}>새로고침</button>
           <ul className="bus_station_box">
             {busRoute?.map((data,index) =>
               <>
-                <li className="bus_station_list" key={index} style={{...stationId?.indexOf(String(data[0])) !== -1 ? {color : "red"} : {color : "black"}}} name={data[1]} value={data[0]}>{data[1]}</li>
+                <li className="bus_station_list" key={index} style={{...stationId?.indexOf(String(data[0])) !== -1 ? {color : "red",fontSize:"20px",marginBottom:"20px"} : {color : "black",fontSize:"20px", marginBottom:"20px"}}} name={data[1]} value={data[0]}>{data[1]}</li>
               </>
             )}
           </ul>
