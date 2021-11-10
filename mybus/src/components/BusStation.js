@@ -121,7 +121,7 @@ const BusStation = () => {
       -routeId : 노선아이디 (노선ID)
       -staOrder : 정류소 순번 (노선의 정류소순번)
       -stationId : 정유소 아이디 (정류소 ID)
-    *******/
+    ******/
   }
 
   //새로고침
