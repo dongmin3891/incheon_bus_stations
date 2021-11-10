@@ -1,8 +1,8 @@
 import axios from "axios";
 import * as URLs from '../const'
-
+// https://test2312.herokuapp.com/
 const instance = axios.create({
-  baseURL : "https://test2312.herokuapp.com"
+  baseURL : ""
 });
 
 instance.interceptors.request.use(
