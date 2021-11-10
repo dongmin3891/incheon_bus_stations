@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/incheon_bus_stations/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/incheon_bus_stations/static/js/main.196af442.chunk.js",
+    "main.js.map": "/incheon_bus_stations/static/js/main.196af442.chunk.js.map",
+    "runtime-main.js": "/incheon_bus_stations/static/js/runtime-main.502cafda.js",
+    "runtime-main.js.map": "/incheon_bus_stations/static/js/runtime-main.502cafda.js.map",
+    "static/js/2.47e927f2.chunk.js": "/incheon_bus_stations/static/js/2.47e927f2.chunk.js",
+    "static/js/2.47e927f2.chunk.js.map": "/incheon_bus_stations/static/js/2.47e927f2.chunk.js.map",
+    "static/js/3.b5b6292c.chunk.js": "/incheon_bus_stations/static/js/3.b5b6292c.chunk.js",
+    "static/js/3.b5b6292c.chunk.js.map": "/incheon_bus_stations/static/js/3.b5b6292c.chunk.js.map",
+    "index.html": "/incheon_bus_stations/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/incheon_bus_stations/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.47e927f2.chunk.js.LICENSE.txt": "/incheon_bus_stations/static/js/2.47e927f2.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.502cafda.js",
+    "static/js/2.47e927f2.chunk.js",
+    "static/css/main.6dea0f05.chunk.css",
+    "static/js/main.196af442.chunk.js"
+  ]
+}
