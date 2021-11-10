@@ -9,11 +9,9 @@ import store from './store/store';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router basename={process.env.PUBLIC_URL}>
       <Provider store={store}>
         <App />
       </Provider>
-    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
